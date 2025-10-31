@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Architecture Portfolio</title>
+  <style>
+    body {
+      margin: 0;
+      background: #0f172a;
+      color: white;
+      font-family: system-ui, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+    }
+    h1 {
+      margin-bottom: 2rem;
+    }
+    iframe {
+      width: 90vw;
+      height: 120vh;
+      border: none;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      margin-bottom: 2rem;
+    }
+    a {
+      color: #38bdf8;
+      text-decoration: none;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>My Architecture Portfolio</h1>
+
+  <div id="pdf-pages"></div>
+
+  <a href="assets/portfolio.pdf" target="_blank">Open Fullscreen</a>
+
+  <script>
+    // Adjust this if your files or paths differ
+    const totalPages = 18; // 👈 update this to match your PDF page count
+    const container = document.getElementById("pdf-pages");
+
+    for (let i = 1; i <= totalPages; i++) {
+      const iframe = document.createElement("iframe");
+      iframe.src = `assets/pages/page_${i}.pdf#view=FitH`;
+      iframe.title = `Page ${i}`;
+      container.appendChild(iframe);
+    }
+  </script>
+</body>
+</html>
