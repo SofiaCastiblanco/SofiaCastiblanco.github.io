@@ -15,42 +15,56 @@
       align-items: center;
       padding: 2rem;
     }
-    h1 {
-      margin-bottom: 2rem;
-    }
-    iframe {
+    h1 { margin-bottom: 2rem; }
+    img {
       width: 90vw;
-      height: 120vh;
-      border: none;
+      max-width: 900px;
       border-radius: 10px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.5);
       margin-bottom: 2rem;
+      display: block;
     }
     a {
       color: #38bdf8;
       text-decoration: none;
       margin-top: 1rem;
     }
+    .muted { color: #94a3b8; }
   </style>
 </head>
 <body>
   <h1>My Architecture Portfolio</h1>
 
-  <div id="pdf-pages"></div>
+  <div id="image-pages" aria-live="polite"></div>
 
-  <a href="assets/portfolio.pdf" target="_blank">Open Fullscreen</a>
+  <a href="assets/portfolio.pdf" target="_blank">Download Full PDF</a>
 
   <script>
-    // Adjust this if your files or paths differ
-    const totalPages = 18; // 👈 update this to match your PDF page count
-    const container = document.getElementById("pdf-pages");
+    // Set how many pages you exported as images:
+    const totalPages = 18; // 👈 update to your count
+    const basePath = "assets/pages"; // folder that contains page_1.jpg, page_2.jpg, ...
+
+    const container = document.getElementById("image-pages");
 
     for (let i = 1; i <= totalPages; i++) {
-      const iframe = document.createElement("iframe");
-      iframe.src = `assets/pages/page_${i}.pdf#view=FitH`;
-      iframe.title = `Page ${i}`;
-      container.appendChild(iframe);
+      const img = document.createElement("img");
+      img.src = `${basePath}/page_${i}.jpg`;
+      img.alt = `Portfolio page ${i}`;
+      img.loading = "lazy";      // lazy-load for performance
+      img.decoding = "async";    // hint for faster rendering
+      container.appendChild(img);
     }
+
+    // Optional: show a small note if images fail to load (wrong path/filenames)
+    window.addEventListener("error", (e) => {
+      const el = e.target;
+      if (el.tagName === "IMG") {
+        const note = document.createElement("div");
+        note.className = "muted";
+        note.textContent = `⚠️ Could not load ${el.getAttribute("src")}`;
+        el.replaceWith(note);
+      }
+    }, true);
   </script>
 </body>
 </html>
